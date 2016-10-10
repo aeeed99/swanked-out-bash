@@ -92,3 +92,9 @@ alias showBlocked='sudo ipfw list'                  # showBlocked:  All ipfw rul
         #echo -e "\n${RED}DNS Configuration:$NC " ; scutil --dns
         echo
     }
+
+# git bash completion!
+# --------------------
+if [ -f ~/.git-completion.bash ]; then
+  . ~/.git-completion.bash
+fi
