@@ -1,3 +1,4 @@
+export PID="web-portal-test"
 
 man() {
     env \
@@ -22,7 +23,9 @@ export NPM_TOKEN="3d7c4-710c-4d92-a425-c64206d0b492"
 
 PATH=$PATH:/usr/local/bin/; export PATH
 
-# from https://natelandau.com/my-mac-osx-bash-profile/
+ #from https://natelandau.com/my-mac-osx-bash-profile/
+export PATH=~/.local/bin:$PATH
+
 
 alias cd..='cd ../'                         # Go back 1 directory level (for fast typers)
 alias ..='cd ../'                           # Go back 1 directory level
@@ -33,9 +36,25 @@ alias .5='cd ../../../../../'               # Go back 5 directory levels
 alias .6='cd ../../../../../../'            # Go back 6 directory levels
 alias ~="cd ~"                              # ~:            Go Home
 mcd () { mkdir -p "$1" && cd "$1"; }        # mcd:          Makes new Dir and jumps inside
+alias c='clear'
+
+
+# git commands
+
+Gmove-commit-to() { git checkout -b "$1" && git reset HEAD~ --hard && git checkout "$1"; }
+alias Gs='git stash'
+Gac() { git add -A && git commit -am "$1"; }
+Gbd() { git branch -d "$1"; }
+GbD() { git branch -D "$1"; }
+alias Gmm='git merge master'
+alias Gm='git checkout master'
+alias Gp='git pull'
+alias Gb='git branch'
+Gcb() { git checkout -b "$1"; }
 
 trash () { command mv "$@" ~/.Trash ; }     # trash:        Moves a file to the MacOS trash
 
+alias rm-stale="git fetch --prune && git branch -r | awk '{print $1}' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '{print $1}' | xargs git branch -d"
 
 #   extract:  Extract most know archives with one command
 #   ---------------------------------------------------------
@@ -93,8 +112,20 @@ alias showBlocked='sudo ipfw list'                  # showBlocked:  All ipfw rul
         echo
     }
 
+
 # git bash completion!
 # --------------------
 if [ -f ~/.git-completion.bash ]; then
   . ~/.git-completion.bash
 fi
+
+
+export AWS_REGION="us-east-1"
+export COGNITO_USER_POOL_ID="us-east-1_RH4OtsRic"
+export COGNITO_AUTH_URL_PREFIX="https://cognito-idp."
+export COGNITO_AUTH_URL_DOMAIN=".amazonaws.com/"
+
+# Setting PATH for Python 2.7
+# The original version is saved in .bash_profile.pysave
+PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
+export PATH
