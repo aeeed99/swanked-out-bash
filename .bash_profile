@@ -43,14 +43,14 @@ alias c='clear'
 
 Gmove-commit-to() { git checkout -b "$1" && git reset HEAD~ --hard && git checkout "$1"; }
 alias Gs='git stash'
-Gac() { git add -A && git commit -am "$1"; }
-Gbd() { git branch -d "$1"; }
-GbD() { git branch -D "$1"; }
+gac() { git add -A && git commit -am "$1"; }
+gbd() { git branch -d "$1"; }
+gbD() { git branch -D "$1"; }
 alias Gmm='git merge master'
 alias Gm='git checkout master'
 alias Gp='git pull'
 alias Gb='git branch'
-Gcb() { git checkout -b "$1"; }
+gcb() { git checkout -b "$1"; }
 
 trash () { command mv "$@" ~/.Trash ; }     # trash:        Moves a file to the MacOS trash
 
