@@ -1,0 +1,6 @@
+See forked gist:
+https://gist.github.com/pdanford/158d74e2026f393e953ed43ff8168ec1
+
+Use second option.
+
+Change icon by running "Get Info" on the new app and the iterm app. Cmd+C the icon graphic on iTerm and Cmd+V it to the new app. nice!
