@@ -119,6 +119,10 @@ if [ -f ~/.git-completion.bash ]; then
   . ~/.git-completion.bash
 fi
 
+# clear git credentials
+# ------------------------------
+alias git-clear='sudo ~/.clear-git-credentials.bash'
+
 
 export AWS_REGION="us-east-1"
 export COGNITO_USER_POOL_ID="us-east-1_RH4OtsRic"
