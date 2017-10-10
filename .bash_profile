@@ -121,7 +121,7 @@ fi
 
 # clear git credentials
 # ------------------------------
-alias git-clear='sudo ~/.clear-git-credentials.bash'
+alias git-clear="sudo echo | ~/swanked-out-bash/.clear-git-credentials.bash"
 
 
 export AWS_REGION="us-east-1"
