@@ -1,0 +1,4 @@
+host=github.com
+protocol=https
+
+
