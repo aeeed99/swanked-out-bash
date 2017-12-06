@@ -19,7 +19,6 @@ parse_git_branch() {
 }
 
 export PS1="\u\[\033[0;35m\] \w\[\033[32m\]\$(parse_git_branch)\[\033[33m\] λ\[\033[00m\] "
-export NPM_TOKEN="3d7c4-710c-4d92-a425-c64206d0b492"
 
 PATH=$PATH:/usr/local/bin/; export PATH
 
@@ -46,11 +45,12 @@ alias Gs='git stash'
 gac() { git add -A && git commit -am "$1"; }
 gbd() { git branch -d "$1"; }
 gbD() { git branch -D "$1"; }
-alias Gmm='git merge master'
-alias Gm='git checkout master'
-alias Gp='git pull'
-alias Gb='git branch'
+alias gmm='git merge master'
+alias gm='git checkout master'
+alias gp='git pull'
+alias gb='git branch'
 gcb() { git checkout -b "$1"; }
+alias gpr="git push origin $(git branch | grep \*|cut -c3-)"
 
 trash () { command mv "$@" ~/.Trash ; }     # trash:        Moves a file to the MacOS trash
 
@@ -124,11 +124,6 @@ fi
 alias git-clear="./responses.txt | git credential-osxkeychain erase"
 #alias git-clear="sudo ./responses.txt | ~/swanked-out-bash/.clear-git-credentials.bash"
 
-
-export AWS_REGION="us-east-1"
-export COGNITO_USER_POOL_ID="us-east-1_RH4OtsRic"
-export COGNITO_AUTH_URL_PREFIX="https://cognito-idp."
-export COGNITO_AUTH_URL_DOMAIN=".amazonaws.com/"
 
 # Setting PATH for Python 2.7
 # The original version is saved in .bash_profile.pysave
