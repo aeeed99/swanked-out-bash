@@ -1,4 +1,3 @@
-export PID="web-portal-test"
 
 man() {
     env \
@@ -18,7 +17,27 @@ parse_git_branch() {
 
 }
 
-export PS1="\u\[\033[0;35m\] \w\[\033[32m\]\$(parse_git_branch)\[\033[33m\] λ\[\033[00m\] "
+
+abbrv_wd() {
+    # used to abbreviate the file path (takes a file path)
+    
+    local FPATH=$(echo $1 | sed 's`'"$HOME"'`~`')
+    LENGTH=$(echo $FPATH | sed -E "s/[^\/]//g" | wc -c)
+    
+    if [[ "$LENGTH" -gt 3 ]]; then
+        END=$(echo $FPATH | grep -Eo "[^\/]*\/[^\/]*\/[^\/]*$")
+        ABBRV=$( echo $FPATH | sed -E "s/(\/.)[^\/]*/\1/g")
+        ABBRV=${ABBRV/%??????/}
+        FINAL=${ABBRV}/${END}
+        echo $FINAL
+    else
+        echo $FPATH
+    fi
+}
+
+export PS1="\u\[\033[0;35m\] \$(abbrv_wd \w)\[\033[32m\]\$(parse_git_branch)\[\033[33m\] ♘\[\033[00m\]  "
+export PS2="→ "
+
 
 PATH=$PATH:/usr/local/bin/; export PATH
 
@@ -37,6 +56,9 @@ alias ~="cd ~"                              # ~:            Go Home
 mcd () { mkdir -p "$1" && cd "$1"; }        # mcd:          Makes new Dir and jumps inside
 alias c='clear'
 
+ls () { /bin/ls -F $*;  }
+
+alias py3='python3'
 
 # git commands
 
@@ -50,9 +72,16 @@ alias gm='git checkout master'
 alias gp='git pull'
 alias gb='git branch'
 gcb() { git checkout -b "$1"; }
-alias gpr="git push origin $(git branch | grep \*|cut -c3-)"
-
+alias gcE="git commit --allow-empty -m 'automated empty commit'"
 trash () { command mv "$@" ~/.Trash ; }     # trash:        Moves a file to the MacOS trash
+
+alias gpr="gpb $@" # push to the current branch you're in on `origin`
+
+gpb() {
+  BRANCH=$(git branch | grep \*|cut -c3-);
+  echo "pushing to [$BRANCH]";
+  git push origin $BRANCH;
+}
 
 alias rm-stale="git fetch --prune && git branch -r | awk '{print $1}' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '{print $1}' | xargs git branch -d"
 
@@ -82,35 +111,6 @@ alias rm-stale="git fetch --prune && git branch -r | awk '{print $1}' | egrep -v
 # ----------------------------------------------------
 
 
-#   ---------------------------
-#   6. NETWORKING
-#   ---------------------------
-
-alias myip='curl ip.appspot.com'                    # myip:         Public facing IP Address
-alias netCons='lsof -i'                             # netCons:      Show all open TCP/IP sockets
-alias flushDNS='dscacheutil -flushcache'            # flushDNS:     Flush out the DNS Cache
-alias lsock='sudo /usr/sbin/lsof -i -P'             # lsock:        Display open sockets
-alias lsockU='sudo /usr/sbin/lsof -nP | grep UDP'   # lsockU:       Display only open UDP sockets
-alias lsockT='sudo /usr/sbin/lsof -nP | grep TCP'   # lsockT:       Display only open TCP sockets
-alias ipInfo0='ipconfig getpacket en0'              # ipInfo0:      Get info on connections for en0
-alias ipInfo1='ipconfig getpacket en1'              # ipInfo1:      Get info on connections for en1
-alias openPorts='sudo lsof -i | grep LISTEN'        # openPorts:    All listening connections
-alias showBlocked='sudo ipfw list'                  # showBlocked:  All ipfw rules inc/ blocked IPs
-
-
-#   ii:  display useful host related informaton
-#   -------------------------------------------------------------------
-    ii() {
-        echo -e "\nYou are logged on ${RED}$HOST"
-        echo -e "\nAdditionnal information:$NC " ; uname -a
-        echo -e "\n${RED}Users logged on:$NC " ; w -h
-        echo -e "\n${RED}Current date :$NC " ; date
-        echo -e "\n${RED}Machine stats :$NC " ; uptime
-        echo -e "\n${RED}Current network location :$NC " ; scselect
-        echo -e "\n${RED}Public facing IP Address :$NC " ;myip
-        #echo -e "\n${RED}DNS Configuration:$NC " ; scutil --dns
-        echo
-    }
 
 
 # git bash completion!
@@ -121,11 +121,11 @@ fi
 
 # clear git credentials
 # ------------------------------
-alias git-clear="./responses.txt | git credential-osxkeychain erase"
+# alias git-clear="./responses.txt | git credential-osxkeychain erase"
 #alias git-clear="sudo ./responses.txt | ~/swanked-out-bash/.clear-git-credentials.bash"
 
 
-# Setting PATH for Python 2.7
+# Setting PATH for Python 3.6
 # The original version is saved in .bash_profile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
+# PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
 export PATH
