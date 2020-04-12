@@ -1,4 +1,5 @@
 
+
 man() {
     env \
         LESS_TERMCAP_mb=$(printf "\e[1;31m") \
@@ -124,6 +125,9 @@ fi
 # alias git-clear="./responses.txt | git credential-osxkeychain erase"
 #alias git-clear="sudo ./responses.txt | ~/swanked-out-bash/.clear-git-credentials.bash"
 
+
+# Surpress annoying zsh plug on Catalina
+export BASH_SILENCE_DEPRECATION_WARNING=1
 
 # Setting PATH for Python 3.6
 # The original version is saved in .bash_profile.pysave
